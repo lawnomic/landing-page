@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancelled - Lawnomic</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <div class="cancel-page">
+        <div class="container">
+            <div class="cancel-content">
+                <div class="cancel-icon">⏸️</div>
+                <h1>Payment Cancelled</h1>
+                <p class="cancel-message">
+                    No worries! Your payment was cancelled and you haven't been charged.
+                </p>
+                
+                <div class="help-options">
+                    <h2>Need Help?</h2>
+                    <div class="options-list">
+                        <div class="option-item">
+                            <span class="option-icon">💬</span>
+                            <div class="option-content">
+                                <h3>Questions about pricing?</h3>
+                                <p>We're happy to discuss which plan works best for your business needs.</p>
+                            </div>
+                        </div>
+                        <div class="option-item">
+                            <span class="option-icon">🔒</span>
+                            <div class="option-content">
+                                <h3>Payment security concerns?</h3>
+                                <p>All payments are processed securely through Stripe with enterprise-grade encryption.</p>
+                            </div>
+                        </div>
+                        <div class="option-item">
+                            <span class="option-icon">📞</span>
+                            <div class="option-content">
+                                <h3>Want to talk to someone?</h3>
+                                <p>Our EU compliance experts are available for a free consultation call.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cancel-actions">
+                    <a href="/#pricing" class="btn btn-primary">View Pricing Again</a>
+                    <a href="/" class="btn btn-outline">Return to Homepage</a>
+                    <a href="mailto:support@lawnomic.com" class="btn btn-outline">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cancel-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 2rem;
+        }
+
+        .cancel-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 3rem;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .cancel-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cancel-content h1 {
+            color: #0f172a;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .cancel-message {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .help-options {
+            text-align: left;
+            margin: 2rem 0;
+        }
+
+        .help-options h2 {
+            text-align: center;
+            color: #0f172a;
+            margin-bottom: 1.5rem;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+        }
+
+        .option-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .option-content h3 {
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .option-content p {
+            color: #64748b;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .cancel-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .cancel-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .cancel-actions {
+                flex-direction: column;
+            }
+
+            .cancel-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</body>
+</html>

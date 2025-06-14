@@ -124,7 +124,7 @@ function startAudit(url, email, button) {
     // For development, use localhost. For production, use deployed backend URL
     const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? 'http://localhost:8000' 
-        : 'https://api.lawnomic.com'; // Update with actual backend URL when deployed
+        : 'https://app.lawnomic.com'; // Deployed Django app URL
     
     fetch(`${API_BASE_URL}/api/audit/`, {
         method: 'POST',
@@ -848,9 +848,263 @@ function initializeLazyLoading() {
 // Initialize lazy loading
 initializeLazyLoading();
 
+// Stripe integration
+const stripe = Stripe('pk_test_51RZvKM4Gk7b9p2uNMXlJvTfJHJuZsOnsZpfyZf1cNZsAA3VPfAimR0NsG5huslyr3vduIcjnE508Y3FXzOopW9Pp00hSrFhmIx');
+
+function showBusinessInfoModal(priceId) {
+    const modal = document.createElement('div');
+    modal.className = 'business-info-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🏢 Business Information</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">
+                    To enable automatic compliance monitoring for your organization, please provide your business details:
+                </p>
+                <form id="businessInfoForm" class="business-info-form">
+                    <div class="form-group">
+                        <label for="businessName">Business Name *</label>
+                        <input type="text" id="businessName" name="businessName" required 
+                               placeholder="e.g., Acme Corporation Ltd">
+                    </div>
+                    <div class="form-group">
+                        <label for="businessWebsite">Primary Website *</label>
+                        <input type="url" id="businessWebsite" name="businessWebsite" required 
+                               placeholder="https://www.example.com">
+                        <small class="form-hint">This website will be automatically monitored for compliance</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Contact Email *</label>
+                        <input type="email" id="contactEmail" name="contactEmail" required 
+                               placeholder="compliance@example.com">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Continue to Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    `;
+
+    // Add modal styles
+    if (!document.querySelector('#business-modal-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'business-modal-styles';
+        styles.textContent = `
+            .business-info-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                padding: 1rem;
+            }
+            
+            .business-info-modal.show {
+                opacity: 1;
+            }
+            
+            .business-info-modal .modal-content {
+                background: white;
+                border-radius: 1rem;
+                max-width: 500px;
+                width: 100%;
+                max-height: 90vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+                transform: scale(0.95);
+                transition: transform 0.3s ease;
+            }
+            
+            .business-info-modal.show .modal-content {
+                transform: scale(1);
+            }
+            
+            .business-info-form {
+                padding: 0;
+            }
+            
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-group label {
+                display: block;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: #374151;
+            }
+            
+            .form-group input {
+                width: 100%;
+                padding: 0.75rem;
+                border: 2px solid #e5e7eb;
+                border-radius: 0.5rem;
+                font-size: 1rem;
+                transition: border-color 0.2s ease;
+                box-sizing: border-box;
+            }
+            
+            .form-group input:focus {
+                outline: none;
+                border-color: #2563eb;
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            }
+            
+            .form-hint {
+                display: block;
+                margin-top: 0.25rem;
+                font-size: 0.875rem;
+                color: #6b7280;
+            }
+            
+            .form-actions {
+                display: flex;
+                gap: 1rem;
+                justify-content: flex-end;
+                margin-top: 2rem;
+            }
+            
+            .modal-description {
+                color: #6b7280;
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+            }
+            
+            @media (max-width: 768px) {
+                .form-actions {
+                    flex-direction: column;
+                }
+                
+                .business-info-modal .modal-content {
+                    margin: 1rem;
+                    width: calc(100% - 2rem);
+                }
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    document.body.appendChild(modal);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 100);
+
+    // Add event listeners
+    const form = modal.querySelector('#businessInfoForm');
+    const closeBtn = modal.querySelector('.close-modal');
+    const cancelBtn = modal.querySelector('.cancel-btn');
+
+    function closeModal() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            if (document.body.contains(modal)) {
+                document.body.removeChild(modal);
+            }
+        }, 300);
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const businessName = form.businessName.value.trim();
+        const businessWebsite = form.businessWebsite.value.trim();
+        const contactEmail = form.contactEmail.value.trim();
+
+        if (!businessName || !businessWebsite || !contactEmail) {
+            showNotification('Please fill in all required fields', 'error');
+            return;
+        }
+
+        if (!isValidUrl(businessWebsite)) {
+            showNotification('Please enter a valid website URL', 'error');
+            return;
+        }
+
+        if (!isValidEmail(contactEmail)) {
+            showNotification('Please enter a valid email address', 'error');
+            return;
+        }
+
+        // Store business info for checkout
+        sessionStorage.setItem('businessInfo', JSON.stringify({
+            businessName,
+            businessWebsite,
+            contactEmail
+        }));
+
+        closeModal();
+        redirectToCheckout(priceId);
+    });
+}
+
+async function redirectToCheckout(priceId) {
+    try {
+        // Get business info from session storage
+        const businessInfo = JSON.parse(sessionStorage.getItem('businessInfo') || '{}');
+        
+        const { error } = await stripe.redirectToCheckout({
+            lineItems: [{ price: priceId, quantity: 1 }],
+            mode: 'subscription',
+            successUrl: window.location.origin + '/landing-page/success.html',
+            cancelUrl: window.location.origin + '/landing-page/cancel.html',
+            billingAddressCollection: 'required',
+            allowPromotionCodes: true,
+            customerEmail: businessInfo.contactEmail || null,
+            phoneNumberCollection: {
+                enabled: true
+            },
+            consentCollection: {
+                terms_of_service: 'required'
+            },
+            metadata: {
+                source: 'lawnomic_landing_page',
+                business_name: businessInfo.businessName || '',
+                business_website: businessInfo.businessWebsite || '',
+                contact_email: businessInfo.contactEmail || ''
+            }
+        });
+
+        if (error) {
+            console.error('Stripe Checkout error:', error);
+            showNotification('Unable to proceed to checkout. Please try again.', 'error');
+        }
+    } catch (error) {
+        console.error('Checkout error:', error);
+        showNotification('Unable to proceed to checkout. Please try again.', 'error');
+    }
+}
+
 // Export functions for potential external use
 window.LawnomicApp = {
     startAudit,
     showNotification,
     isValidUrl
 };
+
+// Make redirectToCheckout available globally
+window.redirectToCheckout = redirectToCheckout;
