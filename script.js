@@ -43,17 +43,26 @@ function initializeNavigation() {
 function initializeAuditForms() {
     const auditButtons = document.querySelectorAll('#startAudit, #startAudit2');
     const urlInputs = document.querySelectorAll('#websiteUrl, #websiteUrl2');
+    const emailInputs = document.querySelectorAll('#emailAddress, #emailAddress2');
     
     auditButtons.forEach((button, index) => {
         const urlInput = urlInputs[index];
+        const emailInput = emailInputs[index];
         
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const url = urlInput.value.trim();
+            const email = emailInput.value.trim();
             
             if (!url) {
                 showNotification('Please enter a website URL', 'error');
                 urlInput.focus();
+                return;
+            }
+            
+            if (!email) {
+                showNotification('Please enter your email address', 'error');
+                emailInput.focus();
                 return;
             }
             
@@ -63,18 +72,26 @@ function initializeAuditForms() {
                 return;
             }
             
-            startAudit(url, button);
+            if (!isValidEmail(email)) {
+                showNotification('Please enter a valid email address', 'error');
+                emailInput.focus();
+                return;
+            }
+            
+            startAudit(url, email, button);
         });
         
         // Allow Enter key to trigger audit
-        if (urlInput) {
-            urlInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    button.click();
-                }
-            });
-        }
+        [urlInput, emailInput].forEach(input => {
+            if (input) {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        button.click();
+                    }
+                });
+            }
+        });
     });
 }
 
@@ -88,33 +105,221 @@ function isValidUrl(string) {
     }
 }
 
+// Email validation
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 // Start audit process
-function startAudit(url, button) {
+function startAudit(url, email, button) {
     const originalText = button.textContent;
-    const loadingStates = ['Starting audit...', 'Analyzing website...', 'Checking compliance...', 'Generating report...'];
-    let currentState = 0;
     
     // Disable button and show loading
     button.disabled = true;
-    button.textContent = loadingStates[0];
+    button.textContent = 'Starting audit...';
     button.classList.add('loading');
     
-    // Simulate audit process with loading states
-    const loadingInterval = setInterval(() => {
-        currentState = (currentState + 1) % loadingStates.length;
-        button.textContent = loadingStates[currentState];
-    }, 2000);
+    // Make API call to backend
+    // For development, use localhost. For production, use deployed backend URL
+    const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? 'http://localhost:8000' 
+        : 'https://api.lawnomic.com'; // Update with actual backend URL when deployed
     
-    // Simulate API call (replace with actual API call)
-    setTimeout(() => {
-        clearInterval(loadingInterval);
+    fetch(`${API_BASE_URL}/api/audit/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            domain: url,
+            email: email
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // Show success message
+        showNotification(
+            `Audit started! You'll receive results at ${email} within 5-10 minutes.`, 
+            'success'
+        );
+        
+        // Reset form
         button.disabled = false;
         button.textContent = originalText;
         button.classList.remove('loading');
         
-        // Show demo results
-        showAuditResults(url);
-    }, 8000);
+        // Clear form inputs
+        const form = button.closest('.audit-form, .audit-form-cta');
+        if (form) {
+            form.querySelectorAll('input').forEach(input => input.value = '');
+        }
+        
+        // Show additional information
+        showAuditConfirmation(data.scan_id, email);
+        
+    })
+    .catch(error => {
+        console.error('Audit request failed:', error);
+        
+        // Reset button
+        button.disabled = false;
+        button.textContent = originalText;
+        button.classList.remove('loading');
+        
+        // Show error message
+        showNotification(
+            'Audit request failed. Please try again or contact support.', 
+            'error'
+        );
+    });
+}
+
+// Show audit confirmation modal
+function showAuditConfirmation(scanId, email) {
+    const modal = document.createElement('div');
+    modal.className = 'results-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🚀 Audit Request Submitted</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-content">
+                    <div class="confirmation-icon">✅</div>
+                    <h4>Your GDPR audit is now running!</h4>
+                    <p>We're analyzing your website for privacy compliance issues. You'll receive a comprehensive audit report via email within 5-10 minutes.</p>
+                    
+                    <div class="confirmation-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Scan ID:</span>
+                            <span class="detail-value">${scanId}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Email:</span>
+                            <span class="detail-value">${email}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="what-next">
+                        <h5>What happens next?</h5>
+                        <ul>
+                            <li>🔍 Our AI audits your website for GDPR compliance</li>
+                            <li>📊 Generates detailed risk assessment</li>
+                            <li>📧 Sends personalized recommendations to your email</li>
+                            <li>🎯 Provides actionable next steps</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-actions">
+                        <button class="btn btn-primary explore-plans">Explore Professional Plans</button>
+                        <button class="btn btn-outline close-confirmation">Got it!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add confirmation-specific styles
+    if (!document.querySelector('#confirmation-styles')) {
+        const styles = document.createElement('style');
+        styles.id = 'confirmation-styles';
+        styles.textContent = `
+            .confirmation-content {
+                text-align: center;
+                padding: 1rem 0;
+            }
+            
+            .confirmation-icon {
+                font-size: 4rem;
+                margin-bottom: 1rem;
+            }
+            
+            .confirmation-details {
+                background-color: #f8fafc;
+                border-radius: 0.5rem;
+                padding: 1.5rem;
+                margin: 1.5rem 0;
+                text-align: left;
+            }
+            
+            .detail-item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+            
+            .detail-label {
+                font-weight: 600;
+                color: #64748b;
+            }
+            
+            .detail-value {
+                font-family: monospace;
+                background-color: #e2e8f0;
+                padding: 0.25rem 0.5rem;
+                border-radius: 0.25rem;
+                font-size: 0.875rem;
+            }
+            
+            .what-next {
+                text-align: left;
+                margin: 1.5rem 0;
+            }
+            
+            .what-next h5 {
+                margin-bottom: 0.75rem;
+                color: #0f172a;
+            }
+            
+            .what-next ul {
+                list-style: none;
+                padding: 0;
+            }
+            
+            .what-next li {
+                padding: 0.5rem 0;
+                color: #64748b;
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+    
+    document.body.appendChild(modal);
+    
+    // Show modal with animation
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 100);
+    
+    // Add close functionality
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(modal);
+        }, 300);
+    });
+    
+    modal.querySelector('.close-confirmation').addEventListener('click', () => {
+        modal.querySelector('.close-modal').click();
+    });
+    
+    modal.querySelector('.explore-plans').addEventListener('click', () => {
+        modal.querySelector('.close-modal').click();
+        document.querySelector('#pricing').scrollIntoView({ behavior: 'smooth' });
+    });
+    
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.querySelector('.close-modal').click();
+        }
+    });
 }
 
 // Show audit results (demo)

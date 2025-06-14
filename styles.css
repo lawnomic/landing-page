@@ -202,26 +202,33 @@ h4 { font-size: 1.25rem; }
 
 .audit-form, .audit-form-cta {
     display: flex;
+    flex-direction: column;
     gap: 0.75rem;
     width: 100%;
     max-width: 500px;
     background-color: var(--bg-white);
-    padding: 0.5rem;
+    padding: 0.75rem;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
 }
 
-.url-input {
+.url-input, .email-input {
     flex: 1;
     padding: 1rem;
-    border: none;
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-md);
     font-size: 1rem;
     outline: none;
+    transition: all 0.2s ease;
 }
 
-.url-input:focus {
+.url-input:focus, .email-input:focus {
+    border-color: var(--primary-blue);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.email-input::placeholder {
+    color: var(--text-light);
 }
 
 .hero-note {
