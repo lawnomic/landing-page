@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawnomic - EU Privacy Compliance Audit Tool</title>
+    <meta name="description" content="Professional GDPR compliance auditing tool. Scan your website for privacy risks, third-party trackers, and consent management issues.">
+    <meta name="keywords" content="GDPR, privacy compliance, website audit, consent management, third-party tracking, ePrivacy">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <div class="nav-brand">
+                <svg class="logo" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                    <path d="M8 12h16v2H8v-2zm0 4h16v2H8v-2zm0 4h12v2H8v-2z" fill="white"/>
+                </svg>
+                <span class="brand-name">Lawnomic</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Comprehensive <span class="text-primary">GDPR Compliance</span> Auditing for Your Website
+                </h1>
+                <p class="hero-description">
+                    Identify privacy risks, third-party trackers, and consent management issues with our professional-grade audit tool. 
+                    Get actionable recommendations to achieve EU privacy compliance.
+                </p>
+                <div class="hero-cta">
+                    <div class="audit-form">
+                        <input type="url" placeholder="Enter your website URL" class="url-input" id="websiteUrl">
+                        <button class="btn btn-primary" id="startAudit">Start Free Audit</button>
+                    </div>
+                    <p class="hero-note">Free trial • No registration required • Results in 30 seconds</p>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="audit-preview">
+                    <div class="preview-header">
+                        <div class="preview-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="preview-title">Compliance Report</span>
+                    </div>
+                    <div class="preview-content">
+                        <div class="metric-card risk-high">
+                            <span class="metric-label">Risk Level</span>
+                            <span class="metric-value">Medium</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Compliance Rate</span>
+                            <span class="metric-value">73%</span>
+                        </div>
+                        <div class="metric-card">
+                            <span class="metric-label">Third-Party Domains</span>
+                            <span class="metric-value">12</span>
+                        </div>
+                        <div class="findings-list">
+                            <div class="finding-item">
+                                <span class="finding-icon">⚠️</span>
+                                <span>Privacy policy not found</span>
+                            </div>
+                            <div class="finding-item">
+                                <span class="finding-icon">🔍</span>
+                                <span>Analytics cookies require consent</span>
+                            </div>
+                            <div class="finding-item">
+                                <span class="finding-icon">🌐</span>
+                                <span>US data transfers detected</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Privacy Compliance Analysis</h2>
+                <p class="section-description">
+                    Our advanced audit engine analyzes every aspect of your website's privacy compliance
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Deep Site Crawling</h3>
+                    <p class="feature-description">
+                        Scans multiple pages including privacy policies, terms, and key user journeys to identify all data collection points.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Third-Party Tracking</h3>
+                    <p class="feature-description">
+                        Identifies all external domains, scripts, and data processors to assess international transfer compliance.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3 class="feature-title">Consent Management</h3>
+                    <p class="feature-description">
+                        Detects and analyzes consent management platforms, cookie categories, and user choice mechanisms.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Risk Assessment</h3>
+                    <p class="feature-description">
+                        Provides detailed risk analysis with specific GDPR article references and compliance percentages.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3 class="feature-title">Actionable Reports</h3>
+                    <p class="feature-description">
+                        Generates comprehensive reports with prioritized recommendations and legal requirement mappings.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Enterprise Ready</h3>
+                    <p class="feature-description">
+                        Built with Django and Ray for scalable, professional-grade auditing with detailed logging and metrics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">How It Works</h2>
+                <p class="section-description">Get comprehensive privacy compliance insights in three simple steps</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Enter Your Website</h3>
+                        <p class="step-description">
+                            Simply provide your website URL. Our system validates and prepares for comprehensive scanning.
+                        </p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Automated Analysis</h3>
+                        <p class="step-description">
+                            Our audit engine crawls your site, detects consent managers, analyzes storage patterns, and identifies third-party domains.
+                        </p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Detailed Report</h3>
+                        <p class="step-description">
+                            Receive a comprehensive compliance report with risk assessment, legal requirements, and prioritized action items.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Report Section -->
+    <section class="sample-report">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Sample Audit Report</h2>
+                <p class="section-description">See what insights you'll receive from our comprehensive analysis</p>
+            </div>
+            <div class="report-preview">
+                <div class="report-tabs">
+                    <button class="tab-btn active" data-tab="overview">Overview</button>
+                    <button class="tab-btn" data-tab="findings">Key Findings</button>
+                    <button class="tab-btn" data-tab="recommendations">Recommendations</button>
+                </div>
+                <div class="report-content">
+                    <div class="tab-content active" id="overview">
+                        <div class="report-metrics">
+                            <div class="metric">
+                                <span class="metric-number">67%</span>
+                                <span class="metric-label">Compliance Rate</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-number risk-medium">Medium</span>
+                                <span class="metric-label">Risk Level</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-number">8</span>
+                                <span class="metric-label">Third-Party Domains</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-number">Termly</span>
+                                <span class="metric-label">Consent Manager</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="findings">
+                        <div class="findings-detailed">
+                            <div class="finding-category">
+                                <h4>🔴 Critical Issues</h4>
+                                <ul>
+                                    <li>Privacy policy not accessible or missing</li>
+                                    <li>Analytics cookies activated without consent</li>
+                                    <li>No data processing agreements with third parties</li>
+                                </ul>
+                            </div>
+                            <div class="finding-category">
+                                <h4>🟡 Moderate Risks</h4>
+                                <ul>
+                                    <li>International data transfers to US detected</li>
+                                    <li>Consent withdrawal mechanism unclear</li>
+                                    <li>Cookie categories not properly disclosed</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="recommendations">
+                        <div class="recommendations-list">
+                            <div class="recommendation priority-high">
+                                <span class="priority-badge">High Priority</span>
+                                <h4>Create Comprehensive Privacy Policy</h4>
+                                <p>Implement a detailed privacy policy covering all data collection, processing, and sharing activities as required by GDPR Articles 13-14.</p>
+                            </div>
+                            <div class="recommendation priority-medium">
+                                <span class="priority-badge">Medium Priority</span>
+                                <h4>Execute Data Processing Agreements</h4>
+                                <p>Establish GDPR Article 28 compliant agreements with all identified third-party processors.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Choose Your Plan</h2>
+                <p class="section-description">Flexible pricing for businesses of all sizes</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Starter</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">49</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Up to 5 website audits per month</li>
+                        <li>✓ Basic compliance reporting</li>
+                        <li>✓ Third-party domain detection</li>
+                        <li>✓ Email support</li>
+                        <li>✗ Deep site crawling</li>
+                        <li>✗ Custom integrations</li>
+                    </ul>
+                    <button class="btn btn-outline">Get Started</button>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="featured-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Professional</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">149</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited website audits</li>
+                        <li>✓ Advanced compliance reporting</li>
+                        <li>✓ Deep site crawling (up to 50 pages)</li>
+                        <li>✓ Privacy policy analysis</li>
+                        <li>✓ Consent flow testing</li>
+                        <li>✓ Priority support</li>
+                    </ul>
+                    <button class="btn btn-primary">Start Free Trial</button>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title">Enterprise</h3>
+                        <div class="pricing-price">
+                            <span class="currency">$</span>
+                            <span class="amount">499</span>
+                            <span class="period">/month</span>
+                        </div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited audits & pages</li>
+                        <li>✓ White-label reporting</li>
+                        <li>✓ API access</li>
+                        <li>✓ Custom integrations</li>
+                        <li>✓ Dedicated account manager</li>
+                        <li>✓ SLA guarantee</li>
+                    </ul>
+                    <button class="btn btn-outline">Contact Sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Ensure Your Privacy Compliance?</h2>
+                <p class="cta-description">
+                    Start with a free audit and discover your website's privacy risks today
+                </p>
+                <div class="cta-actions">
+                    <div class="audit-form-cta">
+                        <input type="url" placeholder="Enter your website URL" class="url-input" id="websiteUrl2">
+                        <button class="btn btn-primary" id="startAudit2">Start Free Audit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <svg class="logo" width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <rect width="32" height="32" rx="8" fill="#2563eb"/>
+                            <path d="M8 12h16v2H8v-2zm0 4h16v2H8v-2zm0 4h12v2H8v-2z" fill="white"/>
+                        </svg>
+                        <span class="brand-name">Lawnomic</span>
+                    </div>
+                    <p class="footer-description">
+                        Professional GDPR compliance auditing tool helping businesses ensure privacy compliance across the EU.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="/api-docs">API Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/privacy">Privacy Policy</a></li>
+                        <li><a href="/terms">Terms of Service</a></li>
+                        <li><a href="/security">Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="/help">Help Center</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                        <li><a href="/status">Status</a></li>
+                        <li><a href="mailto:support@lawnomic.com">support@lawnomic.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lawnomic. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="/privacy">Privacy</a>
+                    <a href="/terms">Terms</a>
+                    <a href="/cookies">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
