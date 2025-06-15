@@ -124,7 +124,7 @@ function startAudit(url, email, button) {
     // For development, use localhost. For production, use deployed backend URL
     const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? 'http://localhost:8000' 
-        : 'https://app.lawnomic.com'; // Deployed Django app URL
+        : 'https://lawnomic-app-oz9vl.ondigitalocean.app'; // Actual deployed Django app URL
     
     fetch(`${API_BASE_URL}/api/audit/`, {
         method: 'POST',
@@ -1067,26 +1067,34 @@ async function redirectToCheckout(priceId) {
         // Get business info from session storage
         const businessInfo = JSON.parse(sessionStorage.getItem('businessInfo') || '{}');
         
-        const { error } = await stripe.redirectToCheckout({
-            lineItems: [{ price: priceId, quantity: 1 }],
-            mode: 'subscription',
-            successUrl: window.location.origin + '/landing-page/success.html',
-            cancelUrl: window.location.origin + '/landing-page/cancel.html',
-            billingAddressCollection: 'required',
-            allowPromotionCodes: true,
-            customerEmail: businessInfo.contactEmail || null,
-            phoneNumberCollection: {
-                enabled: true
+        // Create checkout session by calling backend API first
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://localhost:8000' 
+            : 'https://lawnomic-app-oz9vl.ondigitalocean.app';
+        
+        const checkoutResponse = await fetch(`${API_BASE_URL}/api/create-checkout-session/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             },
-            consentCollection: {
-                terms_of_service: 'required'
-            },
-            metadata: {
-                source: 'lawnomic_landing_page',
+            body: JSON.stringify({
+                price_id: priceId,
                 business_name: businessInfo.businessName || '',
                 business_website: businessInfo.businessWebsite || '',
-                contact_email: businessInfo.contactEmail || ''
-            }
+                contact_email: businessInfo.contactEmail || '',
+                success_url: 'https://lawnomic.com/success.html',
+                cancel_url: 'https://lawnomic.com/cancel.html'
+            })
+        });
+        
+        const session = await checkoutResponse.json();
+        
+        if (session.error) {
+            throw new Error(session.error);
+        }
+        
+        const { error } = await stripe.redirectToCheckout({
+            sessionId: session.id
         });
 
         if (error) {
