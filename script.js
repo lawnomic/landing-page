@@ -124,7 +124,7 @@ function startAudit(url, email, button) {
     // For development, use localhost. For production, use deployed backend URL
     const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? 'http://localhost:8000' 
-        : 'https://lawnomic-app-oz9vl.ondigitalocean.app'; // Actual deployed Django app URL
+        : 'https://lawnomic-app-oz9vl.ondigitalocean.app';
     
     fetch(`${API_BASE_URL}/api/audit/`, {
         method: 'POST',
